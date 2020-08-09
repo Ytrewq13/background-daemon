@@ -1,0 +1,3 @@
+#!/bin/sh
+
+desktop-bg-rand.sh | xargs feh --bg-scale
