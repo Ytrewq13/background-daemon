@@ -1,0 +1,6 @@
+[Unit]
+Description="Desktop Background Randomizer"
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c 'desktop-bg-rand.sh | set-background'

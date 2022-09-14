@@ -1,0 +1,9 @@
+[Unit]
+Description="Desktop Background Randomization Timer"
+
+[Timer]
+OnActiveSec=0
+OnUnitActiveSec=120
+
+[Install]
+WantedBy=timers.target
