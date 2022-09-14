@@ -34,7 +34,8 @@ int main(int argc, char **argv)
             wait.tv_nsec = 1100000000L - current.tv_nsec;
             wait.tv_sec = (WAIT_TIME-1) - rawtime%((int)WAIT_TIME);
 
-            syslog(LOG_NOTICE, "BG Daemon waiting %ld.%9ld second(s)...", wait.tv_sec, wait.tv_nsec);
+            syslog(LOG_NOTICE, "BG Daemon waiting %ld.%9ld second(s)...",
+                    wait.tv_sec, wait.tv_nsec);
 
             nanosleep(&wait, NULL);
 
@@ -49,7 +50,8 @@ int main(int argc, char **argv)
             //run_script();
             if (pid == 0)
             {
-                execlp("randomize-background", "randomize-background", (char *) NULL);
+                execlp("randomize-background", "randomize-background", (char *)
+                        NULL);
                 _exit(EXIT_SUCCESS);
             } else if (pid == -1)
             {
