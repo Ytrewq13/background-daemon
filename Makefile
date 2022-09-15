@@ -1,29 +1,25 @@
-# install must be run as root.
+USER=`logname`
+
+# Must be run as sudo
 install:
-	@echo "Copying executable files..."
-	cp ./desktop-bg-rand.sh /usr/bin
-	cp ./set-background /usr/bin
-	@echo "Copying systemd unit files..."
+	@echo "Copying files..."
+	cp ./desktop-bg-rand.sh /usr/bin/
+	cp ./set-background /usr/bin/
 	cp ./desktopbackground.service /etc/systemd/user/
-	cp ./desktopbackground.timer /etc/systemd/user/
-
-enable:
 	@echo "Reloading systemd daemon..."
-	systemctl --user daemon-reload
+	systemctl --user -M $(USER)@ daemon-reload
 	@echo "Starting/enabling systemd timer..."
-	systemctl --user enable desktopbackground.timer
-	systemctl --user start desktopbackground.timer
+	systemctl --user -M $(USER)@ enable desktopbackground.service
+	systemctl --user -M $(USER)@ start desktopbackground.service
+	@echo "Done"
 
-disable:
-	@echo "Stopping/disabling systemd timer..."
-	-systemctl --user stop desktopbackground.timer
-	-systemctl --user disable desktopbackground.service
-
+# Must be run as user
 uninstall:
-	@echo "Removing systemd unit files..."
-	rm /etc/systemd/user/desktopbackground.timer
-	rm /etc/systemd/user/desktopbackground.service
-	@echo "Removing executable files..."
-	rm /usr/bin/set-background
-	rm /usr/bin/desktop-bg-rand.sh
+	@echo "Stopping/disabling systemd timer..."
+	-systemctl --user -M $(USER)@ stop desktopbackground.service
+	-systemctl --user -M $(USER)@ disable desktopbackground.service
+	@echo "Removing files..."
+	rm -f /usr/bin/desktop-bg-rand.sh
+	rm -f /usr/bin/set-background
+	rm -f /etc/systemd/user/desktopbackground.service
 	@echo "Done"

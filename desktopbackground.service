@@ -1,6 +1,11 @@
 [Unit]
-Description="Desktop Background Randomizer"
+Description=Desktop Background Randomizer
 
 [Service]
-Type=oneshot
-ExecStart=/bin/sh -c 'desktop-bg-rand.sh --print-rating --multiply-rating 20 | set-background --wait-after'
+Type=simple
+Environment=SPEED=20
+ExecStart=/bin/sh -c '/usr/bin/desktop-bg-rand.sh --print-rating --multiply-rating ${SPEED} | /usr/bin/set-background --wait-after'
+Restart=always
+
+[Install]
+WantedBy=default.target
