@@ -6,10 +6,11 @@ install:
 	@echo "Copying systemd unit files..."
 	cp ./desktopbackground.service /etc/systemd/user/
 	cp ./desktopbackground.timer /etc/systemd/user/
-	@echo "Reloading systemd daemon..."
-	systemctl daemon-reload
 
 enable:
+	@echo "Reloading systemd daemon..."
+	systemctl --user daemon-reload
+	@echo "Starting/enabling systemd timer..."
 	systemctl --user enable desktopbackground.timer
 	systemctl --user start desktopbackground.timer
 

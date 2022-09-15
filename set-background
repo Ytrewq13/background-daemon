@@ -1,10 +1,34 @@
 #!/bin/sh
 
+while :; do
+    case $1 in
+        --wait-after)
+            if [ -n "$2" ]; then
+                WAIT_AFTER=$2
+                shift
+            else
+                READ_WAIT_TIME=1
+            fi
+            shift
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
 CURRENT_BG_FILE="${CURRENT_BG_FILE-$HOME/.cache/current-desktop-background}"
 
 IFS=
 read bgfile
+if (( $READ_WAIT_TIME )); then
+    read WAIT_AFTER
+fi
 
 feh --no-fehbg --bg-fill "$bgfile"
 
 [ -n "$CURRENT_BG_FILE" ] && echo "$bgfile" > "$CURRENT_BG_FILE"
+
+[ -n "$WAIT_AFTER" ] && sleep "$WAIT_AFTER"
+
+exit 0

@@ -3,7 +3,7 @@ Description="Desktop Background Randomization Timer"
 
 [Timer]
 OnActiveSec=0
-OnUnitActiveSec=120
+OnUnitInactiveSec=0
 
 [Install]
 WantedBy=timers.target

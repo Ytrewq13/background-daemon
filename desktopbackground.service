@@ -3,4 +3,4 @@ Description="Desktop Background Randomizer"
 
 [Service]
 Type=oneshot
-ExecStart=/bin/sh -c 'desktop-bg-rand.sh | set-background'
+ExecStart=/bin/sh -c 'desktop-bg-rand.sh --print-rating --multiply-rating 20 | set-background --wait-after'
