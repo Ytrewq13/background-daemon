@@ -1,25 +1,31 @@
 [Unit]
 Description=Desktop Background Randomizer
-Requires=graphical.target user@1000.service
-BindsTo=user@1000.service
-After=user@1000.service
+#BindsTo=user@1000.service
+#After=graphical.target
 
 [Service]
 User=sam
 Group=wheel
 Type=simple
+
 # Speed control. Lower values result in faster background changes
 Environment=SPEED=20
+# The Xorg display to set the background for. Needed when not running with full
+# user login session
 Environment="DISPLAY=:0"
 # Set this to your window manager or some other process which will always run
-# while you want a desktop background (Xorg doesn't work)
+# while you want a desktop background (Xorg doesn't work here)
 Environment=WAIT_PROCESS=i3
-# This delays the startup until the required process is running
-# FIXME: Systemd is supposed to handle all of the requirements like this, why
-# do I have to manually check for a running process?
-ExecStartPre=/bin/sh -c 'while ! $(pidof -q "${WAIT_PROCESS}"); do echo "Waiting for process ${WAIT_PROCESS}"; sleep 1; done'
+# Fail if the window manager isn't running (will be restarted after RestartSec=
+# seconds)
+ExecStartPre=/usr/bin/pidof -q "${WAIT_PROCESS}"
+# FIXME: find a way to sleep in ExecStartPost, or use the timer to wait a
+# static period of time
 ExecStart=/bin/sh -c '/usr/bin/desktop-bg-rand.sh --print-rating --multiply-rating ${SPEED} | /usr/bin/set-background --check-process "${WAIT_PROCESS}" --wait-after'
-Restart=always
+#TimeoutStartSec=500ms
+#Restart=always
+RestartSec=1
 
 [Install]
 WantedBy=multi-user.target
+#WantedBy=user-1000.slice

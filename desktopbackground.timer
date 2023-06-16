@@ -1,0 +1,9 @@
+[Unit]
+Description=Randomise the desktop background periodically
+
+[Timer]
+Unit=desktopbackground.service
+OnUnitInactiveSec=0
+
+[Install]
+WantedBy=timers.target
